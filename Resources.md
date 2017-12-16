@@ -1,0 +1,31 @@
+# Implementation
+- Implementation of ransomware in Golang on Github
+    - https://github.com/mauri870/ransomware
+- 877 (open source) Decentralized apps built on Ethereum
+    - https://www.stateofthedapps.com/
+- Protecting Python source code
+    - https://wiki.python.org/moin/Asking%20for%20Help/How%20do%20you%20protect%20Python%20source%20code%3F
+
+# Theory
+- Solidity Introduction to Smart Contracts - good resource for capabilities of solidity
+    - http://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html
+- Decryption in a smart contract - not feasible since it's all public
+    - https://ethereum.stackexchange.com/questions/13161/decryption-in-a-smart-contract
+- *State Channels* Possible non-blockchain way to communicate without having to trust each other?
+    - Context of how I found out about them https://ethereum.stackexchange.com/questions/25579/how-do-existing-applications-on-the-ethereum-blockchain-enforce-confidentiality?rq=1
+    - http://www.jeffcoleman.ca/state-channels/
+    - https://blog.stephantual.com/what-are-state-channels-32a81f7accab
+- *zkSnark* zero knowledge crossover of Zcash and Ethereum
+    - zkSnarks in a nutshell https://blog.ethereum.org/2016/12/05/zksnarks-in-a-nutshell/
+        - Update: integrating zcash and ethereum https://blog.ethereum.org/2017/01/19/update-integrating-zcash-ethereum/
+    - Example of it working https://ropsten.etherscan.io/address/0xa1f11d83a5222692c0eff9eca32254a7452c4f29
+- *Zero knowledge proofs* primer
+    - https://blog.cryptographyengineering.com/2014/11/27/zero-knowledge-proofs-illustrated-primer/
+- *Commitment Schemes* - committing to something you say, such that you can't change it (ex: the key)
+    - https://en.wikipedia.org/wiki/Commitment_scheme#Zero-knowledge_proofs
+- *Oblivious transfers*
+    - https://crypto.stackexchange.com/questions/16557/is-there-an-oblivious-decryption-scheme
+- Zero knowledge proof of possession of key
+    - https://crypto.stackexchange.com/questions/10340/zero-knowledge-proof-of-possession-of-key?rq=1
+    - However, we don't just want to prove possession, but also transmit it
+    - https://en.wikipedia.org/wiki/Zero-knowledge_password_proof
