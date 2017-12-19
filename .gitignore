@@ -1,3 +1,4 @@
 pyethapp/
 py3/
+*.txt
 *.pyc
