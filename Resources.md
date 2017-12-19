@@ -5,6 +5,23 @@
     - https://www.stateofthedapps.com/
 - Protecting Python source code
     - https://wiki.python.org/moin/Asking%20for%20Help/How%20do%20you%20protect%20Python%20source%20code%3F
+- Python/ethereum
+    - https://medium.com/@pipermerriam/the-python-ethereum-ecosystem-101bd9ba4de7
+    - Pyethapp
+        - https://github.com/ethereum/pyethapp/wiki/Making-a-User-Service:-Tutorial
+    - Execute contracts from python https://ethereum.stackexchange.com/questions/8666/execute-a-contract-from-bash-or-inside-a-python-script
+        - Populus
+            - http://populus.readthedocs.io/en/latest/quickstart.html
+        - web3.py
+            - https://github.com/pipermerriam/web3.py/
+            - https://github.com/MarcoSpoerl/ethereum-contract-tests
+        - https://github.com/ConsenSys/ethjsonrpc ???
+        - https://github.com/pipermerriam/py-solc ???
+- Golang contracts
+    - https://github.com/ethereum/go-ethereum/wiki/Contracts-and-Transactions
+    - https://ethereum.stackexchange.com/questions/15435/how-to-compile-solidity-contracts-with-geth-v1-6
+- Serpent - alternative to Solidity to write contracts
+    - https://github.com/ethereum/wiki/wiki/Serpent
 
 # Theory
 - Solidity Introduction to Smart Contracts - good resource for capabilities of solidity
@@ -29,3 +46,5 @@
     - https://crypto.stackexchange.com/questions/10340/zero-knowledge-proof-of-possession-of-key?rq=1
     - However, we don't just want to prove possession, but also transmit it
     - https://en.wikipedia.org/wiki/Zero-knowledge_password_proof
+- *Secret sharing*
+    - https://en.wikipedia.org/wiki/Secret_sharing

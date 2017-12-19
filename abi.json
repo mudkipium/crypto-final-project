@@ -1,0 +1,41 @@
+[
+
+	{
+
+		"constant": true,
+
+		"inputs": [
+
+			{
+
+				"name": "_in",
+
+				"type": "uint256"
+
+			}
+
+		],
+
+		"name": "mul",
+
+		"outputs": [
+
+			{
+
+				"name": "",
+
+				"type": "uint256"
+
+			}
+
+		],
+
+		"payable": false,
+
+		"stateMutability": "pure",
+
+		"type": "function"
+
+	}
+
+]
