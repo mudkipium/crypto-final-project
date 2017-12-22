@@ -1,0 +1,21 @@
+Hello,
+
+Unfortunately, you are the victim of a ransomware attack. The contents of the folder called "confidential" have all been encrypted, and you will no longer be able to access it. To access it again, you will need to pay us a sum of 10 ether. Ether is a cryptocurrency that not only allows us to stay anonymous, but also guarantees that we will give you the correct key.
+
+Please follow these steps:
+1) Create an ether wallet at myetherwallet.com. Save your private key and address somewhere you will be able to find it again. When you are at the "Unlock your wallet to see your address" section, you are done making your wallet.
+2) Create an account at coinbase.com and purchase 10.1 ether.
+3) On coinbase.com, go to the "Accounts" section, select your "ETH Wallet," and click "Send."
+4) Enter your myetherwallet.com wallet's address, and send all of your ether there.
+5) On myetherwallet.com, confirm that you have received all of your ether. Then click "Contracts," paste 0x3119f49c6B71d0fDa4f2515562662f41356e04Dc into the "Contract Address" section, then copy all of the contents of the contact-abi.json file in this folder to the "ABI / JSON Interface" section. Press "Access."
+6) In the "Select a function" menu, choose "payRansom".
+7) From the "information.txt" file in this folder, put the line saying "hash" into the hash field, and the line saying "data" into the data field.
+8) Select to enter your private key to unlock your wallet, paste in your private keym, and press "Unlock." Then, click Write.
+9) In the "Amount to send" field, enter 10.
+10) In the "Gas limit" field, enter 200000. (two hundred thousand)
+11) Open the decrypt program. After a few minutes, your files will be decrypted.
+
+How do I know this is safe?
+We provide the source code of the smart contract (contract.sol) and encryption/decryption (encrypt.py, decrypt.py) programs for you to inspect.
+
+Because of the nature of Ethereum, everything on the blockchain is publicly inspectable. Therefore, you can visit ___ to confirm that the source code we have provided is indeed that of the smart contract at the 0x3119f49c6B71d0fDa4f2515562662f41356e04Dc address.
