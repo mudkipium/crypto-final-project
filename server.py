@@ -14,9 +14,7 @@ ransom_ledger = {}
 # Maps the hashes of ransomer's paid victims to their keys
 unlocked = {}
 
-# contract_address = '0x3119f49c6B71d0fDa4f2515562662f41356e04Dc'
 contract_address = '0x6332F4caB3770C373dd6FA9b0363775003b8f85B'
-abi = None
 contract = None
 with open('contract-abi.json', 'r') as abi_definition:
     abi = json.load(abi_definition)
