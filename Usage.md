@@ -24,7 +24,7 @@ To run the client, put the client.py file in its own folder, along with instruct
 ```
 python client.py
 ```
-and follow the instructions.
+and follow the instructions.txt file.
 
 Troubleshooting---
 If, when running the server, you have an import error related to importing Text from a typing library, just delete all references to Text in that method. This seems to be a bug related to the beta 4 of web3py.
