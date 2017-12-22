@@ -1,0 +1,136 @@
+[
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "demanded",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "sendTo",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"name": "ransoms",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "data",
+				"type": "int256"
+			},
+			{
+				"name": "key",
+				"type": "int256"
+			}
+		],
+		"name": "provideKey",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "data",
+				"type": "int256"
+			}
+		],
+		"name": "payRansom",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"name": "_demand",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "data",
+				"type": "int256"
+			}
+		],
+		"name": "RansomPaid",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "data",
+				"type": "int256"
+			},
+			{
+				"indexed": false,
+				"name": "key",
+				"type": "int256"
+			},
+			{
+				"indexed": false,
+				"name": "payout",
+				"type": "uint256"
+			}
+		],
+		"name": "KeyGiven",
+		"type": "event"
+	}
+]
