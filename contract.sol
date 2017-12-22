@@ -18,7 +18,7 @@ contract Ransom {
     function payRansom(int data) public payable returns (bool) {
         // TODO some kind of return function?
         if (msg.value >= demanded) {
-            ransoms[data] = msg.value;
+            ransoms[data] = msg.value; //todo +=
             RansomPaid(data);
         } else {
             return false;
