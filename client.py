@@ -67,7 +67,9 @@ def encrypt():
 
 def decrypt(key, sha_hash):
     '''
-    Run Caesar decryption of all files in this directory.
+    Run Caesar decryption of all files in this directory, using `key`. The
+    decryption can be checked with the sha256 hash, although this is mostly
+    for testing.
     '''
     for filepath in os.listdir(os.getcwd()):
         if (filepath == 'client.py'):
