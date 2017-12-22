@@ -20,11 +20,11 @@ flask run
 
 We provide a Ropsten test account with about 3 ether; its credentials are already in the files.
 
-To run the client, simply run
+To run the client, put the client.py file in its own folder, along with instructions.txt and a small plaintext file you want to encrypt (do not put anything else, or it will be encrypted!). Then, run
 ```
 python client.py
 ```
 and follow the instructions.
 
 Troubleshooting---
-If, when running the server, you have an import error related to importing Text from a typing library, just delete all references to Text in that method. This seems to be a bug related to the beta.
+If, when running the server, you have an import error related to importing Text from a typing library, just delete all references to Text in that method. This seems to be a bug related to the beta 4 of web3py.

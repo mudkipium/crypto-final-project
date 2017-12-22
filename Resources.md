@@ -1,3 +1,5 @@
+Here are miscellaneous resources regarding cryptography concepts and Ethereum libraries we considered using or ended up using.
+
 # Implementation
 - Implementation of ransomware in Golang on Github
     - https://github.com/mauri870/ransomware
