@@ -8,7 +8,7 @@ contract Ransom {
     mapping (bytes32 => bytes32) public ransoms;
 
     event RansomPaid(bytes32 hash);
-    event KeyGiven(bytes32 data, int key, uint payout);
+    event KeyGiven(bytes32 data, uint key, uint payout);
 
     function Ransom(uint _demand) public {
         demanded = _demand;
@@ -19,7 +19,7 @@ contract Ransom {
     function payRansom(bytes32 data, bytes32 hash) public payable returns (bool) {
         // TODO some kind of return function?
 		ransoms[data] = hash;
-		if (msg.value == demanded) {
+		if (msg.value >= demanded) {
 			RansomPaid(hash);
 		} else {
 			return false;
@@ -27,16 +27,15 @@ contract Ransom {
 
     }
 
-    function provideKey(bytes32 data, int key) public returns (bool){
+    function provideKey(bytes32 data, uint8 key) public returns (bool){
 		// Assuming key is 8-bit integer (0-255)
 		// Run Caesar Decryption:
-        // TODO: This doesn't combile
-		bytes32 decryptedData = data;
+		bytes1[] memory decryptedData = new bytes1[](data.length);
 		for (uint i = 0; i < decryptedData.length; i++) {
-			decryptedData[i] = (decryptedData[i] - key) % 256;
+			decryptedData[i] = bytes1((uint8(data[i]) - key) % 256);
 		}
 		// Compute SHA256 hash to check if decryption is valid
-		bytes32 decryptHash = sha256(decryptedData);
+		bytes32 decryptHash = sha256(bytesToBytes32(decryptedData));
 		if (decryptHash == ransoms[data]) {
             KeyGiven(data, key, demanded);
             sendTo.transfer(demanded);
@@ -45,5 +44,11 @@ contract Ransom {
             return false;
 		}
 
+    }
+
+    function bytesToBytes32(bytes1[] memory source) returns (bytes32 result) {
+        assembly {
+            result := mload(add(source, 32))
+        }
     }
 }
