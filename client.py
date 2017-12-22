@@ -83,7 +83,7 @@ def decrypt(key, sha_hash):
             continue
         with open(filepath, 'rb') as f:
             digest.update(f.read())
-    assert digest.hexdigest() == sha_hash      # Not neccessary, used for testing
+    assert digest.hexdigest() == sha_hash   # Not neccessary, used for testing
 
 if __name__ == '__main__':
     encrypt()
