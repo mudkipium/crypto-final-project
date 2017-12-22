@@ -18,13 +18,12 @@ contract Ransom {
 
     function payRansom(bytes32 data, bytes32 hash) public payable returns (bool) {
         // TODO some kind of return function?
-		if (msg.value >= demanded) {
+        if (msg.value >= demanded) {
             ransoms[data] = hash;
-			RansomPaid(hash);
-		} else {
-			return false;
-		}
-
+            RansomPaid(hash);
+        } else {
+            return false;
+        }
     }
 
     function provideKey(bytes32 data, uint8 key) public returns (bool){
