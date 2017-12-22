@@ -18,7 +18,7 @@ export FLASK_APP=server.py
 flask run
 ```
 
-We provide a Ropsten test account with about 3 ether; its credentials are already in the files.
+We provide a Ropsten test account with about 3 ether for ease of setup; its private key is in the "privatekey-ropsten" file, its keystore file is "UTC--2017-12-17T17-33-34.988067000Z--aa08901e5673593c51ee4439b8ff9639a09fe892", and its password is "testacc".
 
 To run the client, put the client.py file in its own folder, along with instructions.txt and a small plaintext file you want to encrypt (do not put anything else, or it will be encrypted!). Then, run
 ```
