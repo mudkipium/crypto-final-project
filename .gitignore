@@ -3,5 +3,6 @@ py3/
 web3v4/
 py36/
 test/
+testing/
 test*.txt
 *.pyc
