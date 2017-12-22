@@ -41,7 +41,7 @@ contract Ransom {
 		// Run Caesar Decryption:
 		bytes32 decryptedData = data;
 		for (uint i = 0; i < decryptedData.length; i++) {
-			decryptedData[i] = (decryptedData[i] + key) % 256;
+			decryptedData[i] = (decryptedData[i] - key) % 256;
 		}
 		// Compute SHA256 Hash
 		decryptHash = sha256(decryptedData);
