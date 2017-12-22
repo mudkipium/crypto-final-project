@@ -18,8 +18,8 @@ contract Ransom {
 
     function payRansom(bytes32 data, bytes32 hash) public payable returns (bool) {
         // TODO some kind of return function?
-		ransoms[data] = hash;
 		if (msg.value >= demanded) {
+            ransoms[data] = hash;
 			RansomPaid(hash);
 		} else {
 			return false;
@@ -28,21 +28,21 @@ contract Ransom {
     }
 
     function provideKey(bytes32 data, uint8 key) public returns (bool){
-		// Assuming key is 8-bit integer (0-255)
-		// Run Caesar Decryption:
-		bytes1[] memory decryptedData = new bytes1[](data.length);
-		for (uint i = 0; i < decryptedData.length; i++) {
-			decryptedData[i] = bytes1((uint8(data[i]) - key) % 256);
-		}
-		// Compute SHA256 hash to check if decryption is valid
-		bytes32 decryptHash = sha256(bytesToBytes32(decryptedData));
-		if (decryptHash == ransoms[data]) {
+        // Assuming key is 8-bit integer (0-255)
+        // Run Caesar Decryption:
+        bytes1[] memory decryptedData = new bytes1[](data.length);
+        for (uint i = 0; i < decryptedData.length; i++) {
+            decryptedData[i] = bytes1((uint8(data[i]) - key) % 256);
+        }
+        // Compute SHA256 hash to check if decryption is valid
+        bytes32 decryptHash = sha256(bytesToBytes32(decryptedData));
+        if (decryptHash == ransoms[data]) {
             KeyGiven(data, key, demanded);
             sendTo.transfer(demanded);
             return true;
         } else {
             return false;
-		}
+        }
 
     }
 
