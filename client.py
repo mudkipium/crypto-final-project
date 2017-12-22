@@ -87,6 +87,7 @@ def decrypt(key, sha_hash):
             digest.update(f.read())
     assert digest.hexdigest() == sha_hash   # Not neccessary, used for testing
 
+
 if __name__ == '__main__':
     encrypt()
     # print(r.text)
